@@ -50,6 +50,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.abstractions" Version="2.0.3" />
