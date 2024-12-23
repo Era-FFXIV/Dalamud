@@ -11,6 +11,6 @@
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="6.2.1" />
+        <PackageReference Include="Nuke.Common" Version="9.0.3" />
     </ItemGroup>
 </Project>

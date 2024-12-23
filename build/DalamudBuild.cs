@@ -53,6 +53,8 @@ public class DalamudBuild : NukeBuild
 
     private static Dictionary<string, string> EnvironmentVariables => new(EnvironmentInfo.Variables);
 
+    private static string ConsoleTemplate => "{Message:l}{NewLine}{Exception}";
+
     Target Restore => _ => _
         .Executes(() =>
         {
@@ -119,6 +121,7 @@ public class DalamudBuild : NukeBuild
         });
 
     Target Compile => _ => _
+        .DependsOn(SetCustomLogging)
         .DependsOn(CompileDalamud)
         .DependsOn(CompileDalamudBoot)
         .DependsOn(CompileDalamudCrashHandler)
@@ -133,6 +136,14 @@ public class DalamudBuild : NukeBuild
                 .SetProjectFile(TestProjectFile)
                 .SetConfiguration(Configuration)
                 .EnableNoRestore());
+        });
+
+    Target SetCustomLogging => _ => _
+        .Executes(() =>
+        {
+            var config = new LoggerConfiguration().WriteTo.Console(outputTemplate: ConsoleTemplate).ConfigureFiles(this);
+            config.MinimumLevel.Debug();
+            Log.Logger = config.CreateLogger();
         });
 
     Target Clean => _ => _
