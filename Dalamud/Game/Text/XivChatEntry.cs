@@ -2,6 +2,8 @@ using Dalamud.Game.Text.SeStringHandling;
 
 namespace Dalamud.Game.Text;
 
+// some random comment
+
 /// <summary>
 /// This class represents a single chat log entry.
 /// </summary>
