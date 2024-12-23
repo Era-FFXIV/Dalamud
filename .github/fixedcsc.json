@@ -2,6 +2,7 @@
     "problemMatcher": [
         {
             "owner": "fixedcsc",
+            "fileLocation": ["relative", "../"],
             "pattern": [
                 {
                     "regexp": "^\\[([A-Z]+)\\]\\s(.*)\\((\\d+),(\\d+)\\):\\s(error|warning)\\s([^a-z]*):\\s(.*)\\s\\[(.*\\\\)[^\\\\]+\\]$",
