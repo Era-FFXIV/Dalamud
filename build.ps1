@@ -9,6 +9,9 @@ Write-Output "PowerShell $($PSVersionTable.PSEdition) version $($PSVersionTable.
 Set-StrictMode -Version 2.0; $ErrorActionPreference = "Stop"; $ConfirmPreference = "None"; trap { Write-Error $_ -ErrorAction Continue; exit 1 }
 $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 
+Write-Output "::remove-matcher owner=csc::"
+Write-Output "::add-matcher::$PSScriptRoot\\.github\fixedcsc.json"
+
 ###########################################################################
 # CONFIGURATION
 ###########################################################################

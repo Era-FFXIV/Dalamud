@@ -1,0 +1,19 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "fixedcsc",
+            "pattern": [
+                {
+                    "regexp": "\\[([A-Z]+)\\]\\s(.*\\.cs)\\((\\d+),(\\d+)\\):\\s(warning|error)\\s(.*):(.*?)(?=\\s*)\\[(.*?)]",
+                    "file": 2,
+                    "line": 3,
+                    "column": 4,
+                    "severity": 5,
+                    "code": 6,
+                    "message": 7,
+                    "fromFile": 8
+                }
+            ]
+        }
+    ]
+}
