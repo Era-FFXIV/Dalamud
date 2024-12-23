@@ -4,14 +4,14 @@
             "owner": "fixedcsc",
             "pattern": [
                 {
-                    "regexp": "^\\[([A-Z]+)\\]\\s(.*)\\((\\d+),(\\d+)\\):\\s(error|warning)\\s([^a-z]*):\\s(.*)\\s\\[(.*)\\]$",
+                    "regexp": "^\\[([A-Z]+)\\]\\s(.*)\\((\\d+),(\\d+)\\):\\s(error|warning)\\s([^a-z]*):\\s(.*)\\s\\[(.*\\)[^\\]+\\]$",
                     "file": 2,
                     "line": 3,
                     "column": 4,
                     "severity": 5,
                     "code": 6,
                     "message": 7,
-                    "fromFile": 8
+                    "fromPath": 8
                 }
             ]
         }
