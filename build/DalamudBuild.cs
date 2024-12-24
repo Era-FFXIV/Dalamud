@@ -9,7 +9,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Serilog;
-using Serilog.Events;
 
 [UnsetVisualStudioEnvironmentVariables]
 public class DalamudBuild : NukeBuild
@@ -73,8 +72,8 @@ public class DalamudBuild : NukeBuild
                 s = s
                        .SetProjectFile(DalamudProjectFile)
                        .SetConfiguration(Configuration)
-                       .SetProcessArgumentConfigurator(a => a.Add("/clp:NoSummary"))
-                       .EnableNoRestore();
+                       .EnableNoRestore()
+                       .SetProcessArgumentConfigurator(a => a.Add("/clp:NoSummary"));
 
                 // We need to emit compiler generated files for the docs build, since docfx can't run generators directly
                 // TODO: This fails every build after this because of redefinitions...
@@ -129,21 +128,9 @@ public class DalamudBuild : NukeBuild
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.Console(outputTemplate: ConsoleTemplate) //Conditional(c => AllowMessage(c), wt => wt.
+                .WriteTo.Console(outputTemplate: ConsoleTemplate)
                 .CreateLogger();
         });
-
-    private static readonly HashSet<string> MessageBuffer = [];
-    private static bool AllowMessage(LogEvent e)
-    {
-        if (e.Level == LogEventLevel.Warning && MessageBuffer.Contains(e.MessageTemplate.Text))
-        {
-            Log.Debug($"Suppressing duplicate message: {e.MessageTemplate.Text.Replace("warning","dupwarn")}");
-            return false;
-        }
-        MessageBuffer.Add(e.MessageTemplate.Text);
-        return true;
-    }
 
     Target Compile => _ => _
     .DependsOn(CompileDalamud)
@@ -160,7 +147,7 @@ public class DalamudBuild : NukeBuild
             DotNetTasks.DotNetTest(s => s
                 .SetProjectFile(TestProjectFile)
                 .SetConfiguration(Configuration)
-                .SetNoBuild(true)
+                .AddProperty("WarningLevel", "0")
                 .EnableNoRestore());
         });
 
