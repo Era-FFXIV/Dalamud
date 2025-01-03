@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Nuke.Common;
@@ -26,6 +27,9 @@ public class DalamudBuild : NukeBuild
 
     [Parameter("Whether we are building for documentation - emits generated files")]
     readonly bool IsDocsBuild = false;
+
+    [Parameter("Whether we are building or running tests")]
+    readonly bool Tests = false;
 
     [Solution] Solution Solution;
     [GitRepository] GitRepository GitRepository;
@@ -63,6 +67,8 @@ public class DalamudBuild : NukeBuild
     private static Dictionary<string, string> EnvironmentVariables => new(EnvironmentInfo.Variables);
 
     private static string ConsoleTemplate => "{Message:l}{NewLine}{Exception}";
+
+    private static bool IsCIBuild => Environment.GetEnvironmentVariable("CI") == "true";
 
     Target Restore => _ => _
         .Executes(() =>
@@ -163,8 +169,9 @@ public class DalamudBuild : NukeBuild
                 .SetConfiguration(Configuration));
         });
 
-    Target SetCustomLogging => _ => _
+    Target SetCILogging => _ => _
         .DependentFor(Compile)
+        .OnlyWhenStatic(() => IsCIBuild) // Only run this target when we are in a CI environment
         .Executes(() =>
         {
             Log.Logger = new LoggerConfiguration()
@@ -189,6 +196,7 @@ public class DalamudBuild : NukeBuild
                 .SetProjectFile(TestProjectFile)
                 .SetConfiguration(Configuration)
                 .AddProperty("WarningLevel", "0")
+                .EnableNoBuild()
                 .EnableNoRestore());
         });
 
